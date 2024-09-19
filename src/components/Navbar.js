@@ -11,9 +11,24 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/ModeToggle";
+import LoadingBar from "react-top-loading-bar";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const pathname = usePathname();
+  useEffect(() => {
+    setProgress(30);
+    setTimeout(() => setProgress(70), 100);
+    setTimeout(() => setProgress(100), 200);
+  }, [pathname]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setProgress(0);
+    }, 250);
+  });
 
   useEffect(() => {
     setIsClient(true); // Ensure this component is rendered only on the client
@@ -21,9 +36,16 @@ const Navbar = () => {
 
   return (
     <nav className="p-4 bg-background/50 sticky top-0 backdrop-blur border-b z-10">
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <div className="container mx-auto flex justify-between items-center ">
         <div className="text-2xl font-bold">
-          <Link href="/">MuziBlog</Link>
+          <Link href="/" className="italic">
+            MuziBlog
+          </Link>
         </div>
 
         <div className="hidden md:flex space-x-4 items-center">
@@ -59,7 +81,9 @@ const Navbar = () => {
               <SheetContent>
                 <SheetHeader>
                   <div className="flex justify-between items-center">
-                    <SheetTitle className="font-bold my-6">MuziBlog</SheetTitle>
+                    <SheetTitle className="font-bold my-6 italic">
+                      MuziBlog
+                    </SheetTitle>
                     <div>
                       <ModeToggle />
                     </div>

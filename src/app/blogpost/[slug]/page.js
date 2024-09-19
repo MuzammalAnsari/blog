@@ -1,15 +1,48 @@
-export default function page({ params }) {
-    const data = {
-        title: "Understanding React Components",
-        author: "Jane Doe",
-        date: "September 18, 2024",
-        description: "React components are the building blocks of any React application.",
-        htmlContent: `
-          <p>React components are the building blocks of any React application. They allow you to split the UI into independent, reusable pieces, and think about each piece in isolation.</p>
-          <h2>What is a Component?</h2>
-          <p>A component is a JavaScript function or class that optionally accepts inputs i.e. properties (props) and returns a React element that describes how a section of the UI should appear.</p>
-        `
-      };
+import fs from "fs";
+import matter from 'gray-matter';
+import { notFound } from 'next/navigation';
+import rehypeDocument from 'rehype-document'
+import rehypeFormat from 'rehype-format'
+import rehypeStringify from 'rehype-stringify'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import {unified} from 'unified'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeSlug from 'rehype-slug'
+import rehypePrettyCode from "rehype-pretty-code";
+import { transformerCopyButton } from '@rehype-pretty/transformers'
+import OnThisPage from "@/components/onthispage";
+
+export default async function page({ params }) {
+    const filepath = `./src/content/${params.slug}.md`
+    
+    if(!fs.existsSync(filepath)){ 
+        return notFound() 
+    } 
+
+    const fileContent = fs.readFileSync(filepath, "utf-8")
+    const {content, data} = matter(fileContent)
+
+    const processor = unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeDocument, {title: '👋🌍'})
+    .use(rehypeFormat)
+    .use(rehypeStringify) 
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings)
+    .use(rehypePrettyCode, {
+      theme: "github-dark",
+      transformers: [
+          transformerCopyButton({
+            visibility: 'always',
+            feedbackDuration: 3_000,
+          }),
+        ],
+
+    })
+
+  const htmlContent = (await processor.process(content)).toString()
       
   return (
     <div className="max-w-6xl mx-auto p-4">

@@ -1,39 +1,26 @@
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button"
-import fs from 'fs'
+import React from 'react';  
+import { buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
+import fs from "fs";
 import matter from 'gray-matter';
 
 
-const dirContent = fs.readdirSync('content', 'utf-8')
+const dirContent = fs.readdirSync("./src/content", "utf-8")
 
 const blogs = dirContent.map(file=>{
-    const fileContent = fs.readFileSync(`content/${file}`, "utf-8")
+    const fileContent = fs.readFileSync(`./src/content/${file}`, "utf-8")
     const {data} = matter(fileContent)
     return data
 })
 
-// const blogs = [
-//   {
-//     title: "First Blog",
-//     description: "This is the first blog description.",
-//     slug: "first-blog",
-//     date: "2023-10-01",
-//     author: "John Doe",
-//     image: "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-//   },
-//   {
-//     title: "Second Blog",
-//     description: "This is the second blog description.",
-//     slug: "second-blog",
-//     date: "2023-10-02",
-//     author: "Jane Doe",
-//     image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-//   }
-//   // Add more blogs as needed
-// ];
 
-export default function Blog() {
-
+/**
+ * Blog component that renders a list of blog posts.
+ * Each blog post includes an image, title, description, author, date, and a link to the full post.
+ * 
+ * @returns {JSX.Element} The rendered blog component.
+ */
+const Blog = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Main heading for the blog section */}
@@ -67,4 +54,5 @@ export default function Blog() {
       </div>
     </div>
   );
-}
+};
+export default Blog;
