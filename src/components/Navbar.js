@@ -62,12 +62,12 @@ const Navbar = () => {
             Contact
           </Link>
           <div className="flex space-x-4 items-center">
-            <Button className="mx-1" variant="outline">
+            {/* <Button className="mx-1" variant="outline">
               Login
             </Button>
             <Button className="mx-1" variant="outline">
               SignUp
-            </Button>
+            </Button> */}
             <ModeToggle />
           </div>
         </div>
@@ -95,14 +95,14 @@ const Navbar = () => {
                       <Link href="/blog">Blog</Link>
                       <Link href="/contact">Contact</Link>
                     </div>
-                    <div>
+                    {/* <div>
                       <Button className="mx-1 text-xs" variant="outline">
                         Login
                       </Button>
                       <Button className="mx-1 text-xs" variant="outline">
                         SignUp
                       </Button>
-                    </div>
+                    </div> */}
                   </SheetDescription>
                 </SheetHeader>
               </SheetContent>

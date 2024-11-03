@@ -2,9 +2,9 @@
 title: JavaScript Tutorial
 description: A comprehensive guide for learning JavaScript
 slug: js-tut
-date: 21/02/2024
+date: 08/02/2025
 author: Muzi
-image: /typescript.webp
+image: /js.webp
 ---
 
 # Introduction
